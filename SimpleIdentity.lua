@@ -30,7 +30,19 @@ local function GetRealm()
     return GetRealmName()
 end
 
+local function IsEnabled()
+    local charKey = GetCharKey()
+    local charData = SimpleIdentityDB.characters and SimpleIdentityDB.characters[charKey]
+    if charData and charData.enabled == false then
+        return false
+    end
+    return true -- enabled by default
+end
+
 local function GetIdentity()
+    if not IsEnabled() then
+        return nil
+    end
     local realm = GetRealm()
     local serverData = SimpleIdentityDB.server and SimpleIdentityDB.server[realm]
     if serverData and serverData.enabled and serverData.identity then
@@ -90,7 +102,10 @@ local function PrintStatus()
     local realm = GetRealm()
     local serverData = SimpleIdentityDB.server and SimpleIdentityDB.server[realm]
     local serverOn = serverData and serverData.enabled
-    print("|cff00ff00SimpleIdentity:|r Status for " .. UnitName("player") .. " on " .. realm)
+    local version = C_AddOns.GetAddOnMetadata(addonName, "Version") or "unknown"
+    print("|cff00ff00SimpleIdentity v" .. version .. "|r - " .. UnitName("player") .. " on " .. realm)
+    local charEnabled = IsEnabled()
+    print("  Enabled: " .. (charEnabled and "|cff00ff00ON|r" or "|cffff0000OFF|r"))
     print("  Server mode: " .. (serverOn and "|cff00ff00ON|r" or "|cffff0000OFF|r"))
     local id = GetIdentity()
     print("  Active identity: " .. (id and ("[" .. id .. "]") or "|cffff0000not set|r"))
@@ -143,13 +158,33 @@ SlashCmdList["SIMPLEID"] = function(input)
 
     elseif cmd == "server" then
         local toggle = args[2] and args[2]:lower() or ""
+        local newState
         if toggle == "on" then
-            SetServerMode(true)
+            newState = true
         elseif toggle == "off" then
-            SetServerMode(false)
+            newState = false
         else
-            print("|cff00ff00SimpleIdentity:|r Usage: /simpleid server on|off")
+            local realm = GetRealm()
+            local serverData = SimpleIdentityDB.server and SimpleIdentityDB.server[realm]
+            newState = not (serverData and serverData.enabled)
         end
+        SetServerMode(newState)
+
+    elseif cmd == "enable" then
+        local charKey = GetCharKey()
+        SimpleIdentityDB.characters = SimpleIdentityDB.characters or {}
+        SimpleIdentityDB.characters[charKey] = SimpleIdentityDB.characters[charKey] or {}
+        local toggle = args[2] and args[2]:lower() or ""
+        local newState
+        if toggle == "on" then
+            newState = true
+        elseif toggle == "off" then
+            newState = false
+        else
+            newState = not IsEnabled()
+        end
+        SimpleIdentityDB.characters[charKey].enabled = newState
+        print("|cff00ff00SimpleIdentity:|r " .. (newState and "|cff00ff00Enabled|r" or "|cffff0000Disabled|r") .. " for " .. UnitName("player"))
 
     elseif cmd == "status" then
         PrintStatus()
@@ -157,7 +192,8 @@ SlashCmdList["SIMPLEID"] = function(input)
     else
         print("|cff00ff00SimpleIdentity|r commands:")
         print("  /simpleid set <name> - Set your identity tag")
-        print("  /simpleid server on|off - Share identity across all characters on this realm")
+        print("  /simpleid enable [on|off] - Enable/disable for this character (toggles if omitted)")
+        print("  /simpleid server [on|off] - Share identity across all characters on this realm (toggles if omitted)")
         print("  /simpleid status - Show current settings")
     end
 end

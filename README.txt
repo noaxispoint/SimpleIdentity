@@ -1,4 +1,4 @@
-SimpleIdentity
+SimpleIdentity v1.0
 (c) 2006 Travis Conway
 
 A World of Warcraft Classic addon that prepends your guild and officer chat
@@ -27,15 +27,17 @@ All commands use the /simpleid slash command.
     before your guild and officer chat messages.
     Example: /simpleid set Travis
 
-  /simpleid server on
-    Enable server mode. When enabled, all characters on your account on the
-    current realm share the same identity tag. If you already have an identity
-    set on the current character, it will be copied to the server-wide setting
-    automatically.
+  /simpleid enable [on|off]
+    Enable or disable the addon for the current character. If on or off is
+    omitted, it toggles the current state. Useful for temporarily silencing
+    the tag on a specific character without changing your identity settings.
 
-  /simpleid server off
-    Disable server mode. Each character will use its own individual identity
-    tag instead of the shared server-wide one.
+  /simpleid server [on|off]
+    Enable or disable server mode. If on or off is omitted, it toggles the
+    current state. When enabled, all characters on your account on the current
+    realm share the same identity tag. If you already have an identity set on
+    the current character, it will be copied to the server-wide setting
+    automatically.
 
   /simpleid status
     Display your current settings, including server mode and active identity.
