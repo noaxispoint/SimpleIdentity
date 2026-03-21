@@ -1,0 +1,5 @@
+## Interface: 11506
+## Title: SimpleIdentity
+## Notes: Prepends guild chat with a custom identity tag for easy character identification.
+## SavedVariables: SimpleIdentityDB
+SimpleIdentity.lua
