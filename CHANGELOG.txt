@@ -1,0 +1,17 @@
+SimpleIdentity Changelog
+
+v1.0.1
+------
+- Fixed: Slash commands (e.g. /reload, /simpleid) typed while in guild chat
+  were being prepended with the identity tag and sent as chat messages
+
+v1.0
+----
+- Initial release
+- Prepend guild and officer chat with a custom identity tag
+- Per-character identity via /simpleid set <name>
+- Per-character enable/disable via /simpleid enable [on|off]
+- Server mode to share identity across all characters on a realm
+- Server mode toggle via /simpleid server [on|off]
+- Status display via /simpleid status
+- Version displayed on login

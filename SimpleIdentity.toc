@@ -1,6 +1,6 @@
 ## Interface: 11506
 ## Title: SimpleIdentity
-## Version: 1.0
+## Version: 1.0.1
 ## Notes: Prepends guild chat with a custom identity tag for easy character identification.
 ## SavedVariables: SimpleIdentityDB
 SimpleIdentity.lua

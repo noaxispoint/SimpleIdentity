@@ -124,7 +124,7 @@ local function InstallChatHooks()
                     local identity = GetIdentity()
                     if identity then
                         local text = self:GetText()
-                        if text and text ~= "" then
+                        if text and text ~= "" and not text:match("^/") then
                             self:SetText("[" .. identity .. "] " .. text)
                         end
                     end

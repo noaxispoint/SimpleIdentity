@@ -1,4 +1,4 @@
-SimpleIdentity v1.0
+SimpleIdentity v1.0.1
 (c) 2006 Travis Conway
 
 A World of Warcraft Classic addon that prepends your guild and officer chat
