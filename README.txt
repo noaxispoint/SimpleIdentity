@@ -5,8 +5,8 @@ A World of Warcraft Classic addon that prepends your guild and officer chat
 messages with a custom identity tag. This makes it easy for guildmates to
 know who you are across multiple characters.
 
-Example: If your identity is set to "Travis", your guild chat will appear as:
-  [Travis] Hey everyone!
+Example: If your identity is set to "MyName", your guild chat will appear as:
+  [MyName] Hey everyone!
 
 
 INSTALLATION
@@ -25,7 +25,7 @@ All commands use the /simpleid slash command.
   /simpleid set <name>
     Set your identity tag. This is the text that will appear in brackets
     before your guild and officer chat messages.
-    Example: /simpleid set Travis
+    Example: /simpleid set MyName
 
   /simpleid enable [on|off]
     Enable or disable the addon for the current character. If on or off is

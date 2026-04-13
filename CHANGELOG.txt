@@ -1,5 +1,12 @@
 SimpleIdentity Changelog
 
+v1.0.2
+------
+- Fixed: /target and macro slash commands in guild chat triggered a
+  protected function error (ADDON_ACTION_FORBIDDEN). Switched from
+  SetScript("OnEnterPressed") to HookScript("OnKeyDown") so addon code
+  is off the call stack before the secure handler fires
+
 v1.0.1
 ------
 - Fixed: Slash commands (e.g. /reload, /simpleid) typed while in guild chat

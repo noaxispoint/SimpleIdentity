@@ -111,26 +111,23 @@ local function PrintStatus()
     print("  Active identity: " .. (id and ("[" .. id .. "]") or "|cffff0000not set|r"))
 end
 
--- Pre-hook chat editboxes to rewrite the text BEFORE the default handler sends it.
--- HookScript runs after, so we replace the script and call the original ourselves.
+-- Hook OnKeyDown on each chat editbox to prepend the identity tag when Enter is
+-- pressed. Using HookScript("OnKeyDown") means our code runs and finishes in its
+-- own call frame; the engine then fires OnEnterPressed in a clean secure context
+-- with no addon code in the stack, so protected calls like TargetUnit() are safe.
 local function InstallChatHooks()
     for i = 1, NUM_CHAT_WINDOWS do
         local editBox = _G["ChatFrame" .. i .. "EditBox"]
         if editBox and not editBox._simpleIdentityHooked then
-            local origOnEnterPressed = editBox:GetScript("OnEnterPressed")
-            editBox:SetScript("OnEnterPressed", function(self)
+            editBox:HookScript("OnKeyDown", function(self, key)
+                if key ~= "ENTER" and key ~= "RETURN" then return end
                 local chatType = self:GetAttribute("chatType")
-                if chatType == "GUILD" or chatType == "OFFICER" then
-                    local identity = GetIdentity()
-                    if identity then
-                        local text = self:GetText()
-                        if text and text ~= "" and not text:match("^/") then
-                            self:SetText("[" .. identity .. "] " .. text)
-                        end
-                    end
-                end
-                if origOnEnterPressed then
-                    origOnEnterPressed(self)
+                if chatType ~= "GUILD" and chatType ~= "OFFICER" then return end
+                local identity = GetIdentity()
+                if not identity then return end
+                local text = self:GetText()
+                if text and text ~= "" and not text:match("^/") then
+                    self:SetText("[" .. identity .. "] " .. text)
                 end
             end)
             editBox._simpleIdentityHooked = true
