@@ -1,5 +1,5 @@
 SimpleIdentity v1.0.3
-(c) 2006 Travis Conway
+(c) 2026 Travis Conway
 
 A World of Warcraft Classic addon that prepends your guild and officer chat
 messages with a custom identity tag. This makes it easy for guildmates to
