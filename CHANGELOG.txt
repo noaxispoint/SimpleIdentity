@@ -1,5 +1,9 @@
 SimpleIdentity Changelog
 
+v1.0.3
+------
+- Updated Interface version to 11509 for WoW Classic Era 1.15.9
+
 v1.0.2
 ------
 - Fixed: /target and macro slash commands in guild chat triggered a
